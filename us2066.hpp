@@ -18,7 +18,7 @@
  *
  *    He is, however, grateful for the professional help that he
  *    received on their forum. He is extremely grateful that they
- *    declined to laugh at his truly rediculous mistakes.
+ *    declined to laugh at his truly ridiculous mistakes.
  */
 
 #ifndef US2066_HPP_

@@ -23,7 +23,6 @@
 
 #include "bbb-i2c.hpp"
 #include "us2066.hpp"
-#include "us2066_defs.hpp"
 
 using namespace std;
 using namespace bbbi2c;
@@ -42,8 +41,8 @@ namespace nhd_us2066
  *   Constructor. Assigns the I2C bus and the target device address.
  *
  * Parameters:
- *   bus  - pointer to an I2CBus object.
- *   addr - the target device I2C address.
+ *   bus  - pointer to an I2CBus object
+ *   addr - the target device I2C address
  *
  * Namespace:
  *   nhd_us2066
@@ -53,8 +52,8 @@ namespace nhd_us2066
  */
 US2066::US2066(I2CBus* bus, uint8_t addr)
 {
-	i2cbus  = bus;
-	i2caddr = addr;
+    i2cbus  = bus;
+    i2caddr = addr;
 }
 
 /*
@@ -84,19 +83,18 @@ US2066::~US2066()
  *   to the US2066 controller.
  *
  * Parameters:
- *   cmd - an 8-bit US2066 command.
+ *   cmd - an 8-bit US2066 command
  *
  * Namespace:
  *   nhd_us2066
  *
  * Header File(s)
  *   us2066.hpp
- *   us2066_defs.hpp
  */
 void US2066::Command(uint8_t cmdbyte)
 {
-	uint8_t dat[] {US2066_CTRL_CMD, cmdbyte};
-	i2cbus->Write(dat, 2, i2caddr);
+    uint8_t dat[] {US2066_CTRL_CMD, cmdbyte};
+    i2cbus->Write(dat, 2, i2caddr);
 }
 
 /*
@@ -106,19 +104,18 @@ void US2066::Command(uint8_t cmdbyte)
  *   Sends a control byte followed by one data byte.
  *
  * Parameters:
- *   dat - data in the form of an 8-bit unsigned integer.
+ *   dat - data in the form of an 8-bit unsigned integer
  *
  * Namespace:
  *   nhd_us2066
  *
  * Header File(s)
  *   us2066.hpp
- *   us2066_defs.hpp
  */
 void US2066::Data(uint8_t datbyte)
 {
-	uint8_t dat[] { US2066_CTRL_DATA, datbyte };
-	i2cbus->Write(dat, 2, i2caddr);
+    uint8_t dat[] { US2066_CTRL_DATA, datbyte };
+    i2cbus->Write(dat, 2, i2caddr);
 }
 
 /*
@@ -129,22 +126,21 @@ void US2066::Data(uint8_t datbyte)
  *   data bytes.
  *
  * Parameters:
- *   sdat - data in the form of a string.
+ *   sdat - data in the form of a string
  *
  * Namespace:
  *   nhd_us2066
  *
  * Header File(s)
  *   us2066.hpp
- *   us2066_defs.hpp
  */
 void US2066::Data(string sdat)
 {
-	char ctrl = US2066_CTRL_DATA;
+    char ctrl = US2066_CTRL_DATA;
 
-	string::iterator it = sdat.begin();
-	sdat.insert(it, ctrl);
-	i2cbus->Write(sdat, i2caddr);
+    string::iterator it = sdat.begin();
+    sdat.insert(it, ctrl);
+    i2cbus->Write(sdat, i2caddr);
 }
 
 /*
@@ -155,22 +151,21 @@ void US2066::Data(string sdat)
  *   of data.
  *
  * Parameters:
- *   vdat - a vector containing one or more bytes of data.
+ *   vdat - a vector containing one or more bytes of data
  *
  * Namespace:
  *   nhd_us2066
  *
  * Header File(s);
  *   us2066.hpp
- *   us2066_defs.hpp
  */
 void US2066::Data(vector<uint8_t> vdat)
 {
-	uint8_t ctrl = US2066_CTRL_DATA;
+    uint8_t ctrl = US2066_CTRL_DATA;
 
-	vector<uint8_t>::iterator it = vdat.begin();
-	vdat.insert(it, ctrl);
-	i2cbus->Write(vdat.data(), vdat.size(), i2caddr);
+    vector<uint8_t>::iterator it = vdat.begin();
+    vdat.insert(it, ctrl);
+    i2cbus->Write(vdat.data(), vdat.size(), i2caddr);
 }
 
 /*
@@ -189,11 +184,10 @@ void US2066::Data(vector<uint8_t> vdat)
  *
  * Header File(s);
  *   us2066.hpp
- *   us2066_defs.hpp
  */
 void US2066::Clear()
 {
-	this->Command(US2066_CLEAR);
+    this->Command(US2066_CLEAR);
 }
 
 /*
@@ -215,39 +209,39 @@ void US2066::Clear()
  */
 void US2066::Init()
 {
-	this->Command(0x2A); // function set (extended command set)
-	this->Command(0x71); // function selection A
-	this->Data(0x00);    // disable internal VDD regulator (2.8V I/O). data(0x5C) = enable regulator (5V I/O)
+    this->Command(0x2A); // function set (extended command set)
+    this->Command(0x71); // function selection A
+    this->Data(0x00);    // disable internal VDD regulator (2.8V I/O). data(0x5C) = enable regulator (5V I/O)
 
-	this->Command(0x28); // function set (fundamental command set)
-	this->Command(0x08); // display off, cursor off, blink off
-	this->Command(0x2A); // function set (extended command set)
-	this->Command(0x79); // OLED command set enabled
-	this->Command(0xD5); // set display clock divide ratio/oscillator frequency
-	this->Command(0x70); // set display clock divide ratio/oscillator frequency
-	this->Command(0x78); // OLED command set disabled
-	this->Command(0x09); // extended function set (4-lines)
-	this->Command(0x06); // COM SEG direction
-	this->Command(0x72); // function selection B
+    this->Command(0x28); // function set (fundamental command set)
+    this->Command(0x08); // display off, cursor off, blink off
+    this->Command(0x2A); // function set (extended command set)
+    this->Command(0x79); // OLED command set enabled
+    this->Command(0xD5); // set display clock divide ratio/oscillator frequency
+    this->Command(0x70); // set display clock divide ratio/oscillator frequency
+    this->Command(0x78); // OLED command set disabled
+    this->Command(0x09); // extended function set (4-lines)
+    this->Command(0x06); // COM SEG direction
+    this->Command(0x72); // function selection B
 //	this->Data(0x00);    // ROM CGRAM selection
-	this->Data(0x08);    // Use CGROM C
+    this->Data(0x08);    // Use CGROM C
 
-	this->Command(0x2A); // function set (extended command set)
-	this->Command(0x79); // OLED command set enabled
-	this->Command(0xDA); // set SEG pins hardware configuration
-	this->Command(0x10); // set SEG pins hardware configuration
-	this->Command(0xDC); // function selection C
-	this->Command(0x00); // function selection C
-	this->Command(0x81); // set contrast control
-	this->Command(0x7F); // set contrast control
-	this->Command(0xD9); // set phase length
-	this->Command(0xF1); // set phase length
-	this->Command(0xDB); // set VCOMH deselect level
-	this->Command(0x40); // set VCOMH deselect level
-	this->Command(0x78); // OLED command set disabled
-	this->Command(0x28); // function set (fundamental command set)
-	this->Command(0x01); // clear display
-	this->Command(0x80); // set DDRAM address to 0x00
+    this->Command(0x2A); // function set (extended command set)
+    this->Command(0x79); // OLED command set enabled
+    this->Command(0xDA); // set SEG pins hardware configuration
+    this->Command(0x10); // set SEG pins hardware configuration
+    this->Command(0xDC); // function selection C
+    this->Command(0x00); // function selection C
+    this->Command(0x81); // set contrast control
+    this->Command(0x7F); // set contrast control
+    this->Command(0xD9); // set phase length
+    this->Command(0xF1); // set phase length
+    this->Command(0xDB); // set VCOMH deselect level
+    this->Command(0x40); // set VCOMH deselect level
+    this->Command(0x78); // OLED command set disabled
+    this->Command(0x28); // function set (fundamental command set)
+    this->Command(0x01); // clear display
+    this->Command(0x80); // set DDRAM address to 0x00
 //	this->Command(0x0C); // display ON
 }
 
@@ -268,11 +262,10 @@ void US2066::Init()
  *
  * Header File(s);
  *   us2066.hpp
- *   us2066_defs.hpp
  */
 void US2066::Off()
 {
-	this->SetState(US2066_OFF);
+    this->SetState(US2066_OFF);
 }
 
 /*
@@ -292,11 +285,10 @@ void US2066::Off()
  *
  * Header File(s);
  *   us2066.hpp
- *   us2066_defs.hpp
  */
 void US2066::On()
 {
-	this->SetState(US2066_ON);
+    this->SetState(US2066_ON);
 }
 
 /*
@@ -308,10 +300,10 @@ void US2066::On()
  *
  * Parameters:
  *   st - Display state code:
- *     DS_OFF       Display off.
- *     DS_ON        Display on, cursor off.
- *     DS_CURS      Display on, cursor on.
- *     DS_BLINK     Display on, cursor blinking.
+ *     DS_OFF       Display off
+ *     DS_ON        Display on, cursor off
+ *     DS_CURS      Display on, cursor on
+ *     DS_BLINK     Display on, cursor blinking
  *
  * Initial Conditions:
  *   IS = X
@@ -323,11 +315,10 @@ void US2066::On()
  *
  * Header File(s);
  *   us2066.hpp
- *   us2066_defs.hpp
  */
 void US2066::SetState(uint8_t st)
 {
-	this->Command(st);
+    this->Command(st);
 }
 
 /*
@@ -357,33 +348,34 @@ void US2066::SetState(uint8_t st)
  *
  * Header File(s);
  *   us2066.hpp
- *   us2066_defs.hpp
  */
 void US2066::SetPosition(int line, int col)
 {
-	uint8_t cmd = US2066_LINE_1;
+    uint8_t cmd = US2066_LINE_1;
 
-	if ( col < 1 || col > 20 ) col = 1;
+    if ( col < 1 || col > 20 ) col = 1;
 
-	switch (line)
-	{
-	  case 2:
-		cmd = US2066_LINE_2;
-		break;
-	  case 3:
-		cmd = US2066_LINE_3;
-		break;
-	  case 4:
-		cmd = US2066_LINE_4;
-		break;
-	  default:
-		cmd = US2066_LINE_1;
-		break;
-	}
+    switch (line)
+    {
+        case 1:
+          cmd = US2066_LINE_1;
+          break;
+        case 2:
+          cmd = US2066_LINE_2;
+          break;
+        case 3:
+          cmd = US2066_LINE_3;
+          break;
+        case 4:
+          cmd = US2066_LINE_4;
+          break;
+        default:
+          cmd = US2066_LINE_1;
+          break;
+    }
 
-	cmd += (col-1);
-
-	this->Command(cmd);
+    cmd += (col-1);
+    this->Command(cmd);
 }
 
 /*
@@ -393,7 +385,7 @@ void US2066::SetPosition(int line, int col)
  *   Display a splash screen. In this case, a splash line.
  *
  * Parameters:
- *   txt - Text to display.
+ *   txt - Text to display
  *
  * Namespace:
  *   nhd_us2066
@@ -403,11 +395,10 @@ void US2066::SetPosition(int line, int col)
  */
 void US2066::SplashScreen(string txt)
 {
-	this->Clear();
-	this->Data(txt);
-	this->On();
+    this->Clear();
+    this->Data(txt);
+    this->On();
 }
-
 
 
 } // namespace nhd_us2066

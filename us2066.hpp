@@ -1,3 +1,4 @@
+```
 /*
  * us2066.h
  *
@@ -30,7 +31,7 @@
 #include <vector>
 
 #include "bbb-i2c.hpp"
-
+#include "us2066_defs.hpp"
 
 namespace nhd_us2066
 {
@@ -38,31 +39,30 @@ namespace nhd_us2066
 class US2066
 {
   private:
-	bbbi2c::I2CBus*  i2cbus;
-	uint8_t          i2caddr;
+    bbbi2c::I2CBus*  i2cbus;
+    uint8_t          i2caddr;
 
   public:
-	 US2066 ( bbbi2c::I2CBus* bus, uint8_t addr );
-	~US2066 ();
+    US2066 ( bbbi2c::I2CBus* bus, uint8_t addr );
+    ~US2066 ();
 
-	void Command ( uint8_t cmd );
+    void Command ( uint8_t cmd );
 
-	void Data ( uint8_t dat );
-	void Data ( std::string dat );
-	void Data ( std::vector<uint8_t> dat );
+    void Data ( uint8_t dat );
+    void Data ( std::string dat );
+    void Data ( std::vector<uint8_t> dat );
 
-	void Clear ();
-	void Init  ();
-	void Off   ();
-	void On    ();
+    void Clear ();
+    void Init  ();
+    void Off   ();
+    void On    ();
 
-	void SetState     ( uint8_t state );
-	void SetPosition  ( int line, int col=1 );
-	void SplashScreen ( std::string txt );
+    void SetState     ( uint8_t state );
+    void SetPosition  ( int line, int col=1 );
+    void SplashScreen ( std::string txt );
 };
-
 
 } // namespace nhd_us2066
 
-
 #endif /* US2066_H_ */
+```
